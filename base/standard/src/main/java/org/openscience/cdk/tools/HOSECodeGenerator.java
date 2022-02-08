@@ -601,29 +601,10 @@ public class HOSECodeGenerator implements java.io.Serializable {
      *@param  sphereNodes  A vector with sphere nodes to be sorted.
      */
     private void sortNodesByScore(List<TreeNode> sphereNodes) {
-        TreeNode obj;
-        boolean changed;
-        if (sphereNodes.size() == 0) return;
-        /*
-         * Now we sort by score
-         */
-        do {
-            changed = false;
-            for (int i = 0; i < sphereNodes.size() - 1; i++) {
-                if (((TreeNode) sphereNodes.get(i + 1)).stringscore
-                        .compareTo(((TreeNode) sphereNodes.get(i)).stringscore) > 0) {
-                    obj = sphereNodes.get(i + 1);
-                    sphereNodes.remove(i + 1);
-                    sphereNodes.add(i, obj);
-                    changed = true;
-                }
-            }
-        } while (changed);
+        sphereNodes.sort((o1, o2) -> o2.stringscore.compareTo(o1.stringscore));
         /* Having sorted a sphere, we label the nodes with their sort order */
-        TreeNode temp = null;
         for (int i = 0; i < sphereNodes.size(); i++) {
-            temp = ((TreeNode) sphereNodes.get(i));
-            temp.sortOrder = sphereNodes.size() - i;
+            sphereNodes.get(i).sortOrder = sphereNodes.size() - i;
         }
     }
 
